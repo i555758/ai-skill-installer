@@ -427,7 +427,7 @@ function generateCmd(skill) {
   L.push("echo (A janela fica aberta ate o Claude terminar)");
   L.push("echo.");
   L.push("");
-  L.push("claude -p \"Read the use case file at %TMPFILE% and install it as a Claude Code skill. Steps: 1) Read the file content. 2) Understand what the use case does: name, objective, inputs, outputs, how to invoke. 3) Create the skill file in %USERPROFILE%\.claude\skills\ with a suitable name, YAML frontmatter (name and description) and complete execution instructions. 4) Confirm: skill name, file path, how to invoke and what it produces.\"");
+  L.push("claude --allowedTools \"Write,Read\" -p \"Read the use case file at %TMPFILE% and install it as a Claude Code skill. Steps: 1) Read the file content. 2) Understand what the use case does: name, objective, inputs, outputs, how to invoke. 3) Create the skill file in %USERPROFILE%\.claude\skills\ with a suitable name, YAML frontmatter (name and description) and complete execution instructions. 4) Confirm: skill name, file path, how to invoke and what it produces.\"");
   L.push("");
   L.push("echo.");
   L.push("echo ================================================================");
