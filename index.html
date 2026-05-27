@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAP AI Initiatives — Skill Installer</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: "72", "72 Brand", Calibri, Arial, sans-serif;
+    background: #F5F5F5;
+    color: #333;
+    min-height: 100vh;
+  }
+
+  header {
+    background: #00315C;
+    color: white;
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  header .logo {
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    color: white;
+  }
+  header .sub {
+    font-size: 13px;
+    color: #99BBDD;
+    margin-top: 2px;
+  }
+
+  .hero {
+    background: linear-gradient(135deg, #00315C 0%, #007DB8 100%);
+    color: white;
+    padding: 48px 40px 40px;
+    text-align: center;
+  }
+  .hero h1 { font-size: 32px; font-weight: bold; margin-bottom: 10px; }
+  .hero p  { font-size: 15px; color: #CCE8F8; max-width: 640px; margin: 0 auto; }
+
+  .container { max-width: 960px; margin: 0 auto; padding: 40px 24px; }
+
+  /* Skill cards */
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 48px; }
+
+  .card {
+    background: white;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .card-header {
+    padding: 16px 20px 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .card-num {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; font-weight: bold; color: white;
+    flex-shrink: 0;
+  }
+  .card-title { font-size: 14px; font-weight: bold; color: #00315C; }
+  .card-meta  { font-size: 11px; color: #888; margin-top: 2px; }
+
+  .card-body { padding: 0 20px 16px; flex: 1; }
+  .card-body p { font-size: 12px; color: #555; line-height: 1.5; margin-bottom: 10px; }
+
+  .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: bold;
+    margin-right: 4px;
+    margin-bottom: 4px;
+  }
+
+  .card-footer { padding: 12px 20px; border-top: 1px solid #F0F0F0; }
+
+  .btn-install {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background: #007DB8;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.2s;
+  }
+  .btn-install:hover { background: #005F90; }
+  .btn-install:active { background: #00315C; }
+
+  /* Instructions */
+  .instructions {
+    background: white;
+    border-radius: 6px;
+    padding: 28px 32px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    margin-bottom: 32px;
+  }
+  .instructions h2 { color: #00315C; font-size: 18px; margin-bottom: 16px; }
+  .step {
+    display: flex; gap: 14px; margin-bottom: 14px; align-items: flex-start;
+  }
+  .step-num {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: #007DB8; color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: bold; flex-shrink: 0;
+  }
+  .step-text { font-size: 13px; color: #444; line-height: 1.6; padding-top: 3px; }
+  .step-text code {
+    background: #F0F4F8; padding: 1px 6px; border-radius: 3px;
+    font-family: "Courier New", monospace; font-size: 12px; color: #00315C;
+  }
+
+  .prereq {
+    background: #FFF8E1;
+    border-left: 4px solid #E8B800;
+    padding: 14px 18px;
+    border-radius: 0 4px 4px 0;
+    margin-bottom: 24px;
+    font-size: 13px;
+    color: #555;
+  }
+  .prereq strong { color: #7A5F00; }
+
+  footer {
+    background: #00315C;
+    color: #99BBDD;
+    text-align: center;
+    padding: 20px;
+    font-size: 12px;
+    margin-top: 40px;
+  }
+  footer a { color: #7DB8E8; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="logo">SAP</div>
+  </div>
+  <div>
+    <div style="font-size:16px;font-weight:bold;">AI Initiatives — Skill Installer</div>
+    <div class="sub">Cloud ERP PS Leadership Team  |  Claude Code</div>
+  </div>
+</header>
+
+<div class="hero">
+  <h1>Install an AI Skill in One Click</h1>
+  <p>Choose a use case below, download the installer and run it. Claude Code will be configured automatically.</p>
+</div>
+
+<div class="container">
+
+  <div class="prereq">
+    <strong>Prerequisites:</strong>
+    Claude Code CLI installed &nbsp;•&nbsp;
+    Python 3 installed &nbsp;•&nbsp;
+    HAI Proxy running (<code>hai proxy</code>) &nbsp;•&nbsp;
+    SAP MCP Suite configured in <code>~/.claude/settings.json</code>
+  </div>
+
+  <div class="instructions">
+    <h2>How to install</h2>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-text">Click <strong>"Download Installer"</strong> on the skill card below.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-text">Double-click the downloaded <code>.cmd</code> file. No warnings.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-text">The installer checks dependencies, creates the skill file and opens Claude Code automatically.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-text">When Claude finishes, the terminal shows <code>Concluido!</code> — press Enter to close.</div>
+    </div>
+  </div>
+
+  <div class="grid" id="skill-grid">
+    <!-- Cards injected by JS -->
+  </div>
+
+</div>
+
+<footer>
+  Cloud ERP PS Leadership Team &nbsp;|&nbsp;
+  <a href="https://github.tools.sap/Cloud-ERP-SCM-Product-Success/Cloud_ERP_PS_LT_AI_Initiatives" target="_blank">GitHub Repository</a>
+  &nbsp;|&nbsp; 2026
+</footer>
+
+<script>
+const skills = [
+  {
+    num: "01",
+    color: "#E87322",
+    tag: "Foundation",
+    tagColor: "#E87322",
+    title: "Data Privacy Pseudonymization",
+    author: "Mingkang Huang  |  I075278",
+    description: "Mandatory prerequisite for all use cases. Explains the SAP pseudonymization proxy — protects customer data before sending to Claude.",
+    gain: "Zero privacy overhead",
+    invoke: "/sap-anonymize",
+    url: "https://github.tools.sap/Cloud-ERP-SCM-Product-Success/Cloud_ERP_PS_LT_AI_Initiatives/blob/main/initiatives/20260521_data_privacy_pseudonymization_use_case.md"
+  },
+  {
+    num: "02",
+    color: "#007DB8",
+    tag: "Quick Win",
+    tagColor: "#007DB8",
+    title: "Meeting Debrief Documentation",
+    author: "Robert Qiu  |  I048776",
+    description: "Raw transcript → detailed notes (.md, 25-40 pages) + executive dashboard (.html) in 10-15 min. Works with Teams, DOCX or plain text.",
+    gain: "60-90 min → 10-15 min  (83-88% reduction)",
+    invoke: "/debrief-meeting-notes",
+    url: "https://github.tools.sap/Cloud-ERP-SCM-Product-Success/Cloud_ERP_PS_LT_AI_Initiatives/blob/main/initiatives/20260521_meeting_debrief_documentation_use_case.md"
+  },
+  {
+    num: "03",
+    color: "#007DB8",
+    tag: "Quick Win",
+    tagColor: "#007DB8",
+    title: "Customer Project Status Board",
+    author: "Elton Macedo  |  I555748",
+    description: "7-tab HTML dashboard with live data from CRP, ServiceNow, Teams and Outlook. Full portfolio view in under 60 seconds.",
+    gain: "38 min/day → < 60 sec  (154h/year per PM)",
+    invoke: "/Customer-Project-Status-Board",
+    url: "https://github.tools.sap/Cloud-ERP-SCM-Product-Success/Cloud_ERP_PS_LT_AI_Initiatives/blob/main/initiatives/20260521_customer_project_status_board_use_case.md"
+  },
+  {
+    num: "04",
+    color: "#00315C",
+    tag: "Analytics",
+    tagColor: "#00315C",
+    title: "App Gap Analysis",
+    author: "Mingkang Huang  |  I075278",
+    description: "Identifies unused S/4HANA modules vs. industry peers. Outputs Excel with gaps ranked by adoption percentage.",
+    gain: "3-5h manual → < 20 min",
+    invoke: "/app-gap-analysis",
+    url: "https://github.tools.sap/Cloud-ERP-SCM-Product-Success/Cloud_ERP_PS_LT_AI_Initiatives/blob/main/initiatives/20260521_app_gap_analysis_use_case.md"
+  },
+  {
+    num: "05",
+    color: "#00315C",
+    tag: "Analytics",
+    tagColor: "#00315C",
+    title: "SI Adoption Report",
+    author: "Mingkang Huang  |  I075278",
+    description: "5-phase pipeline: CRP collection → continuous usage filter → 16-slide PowerPoint with customer tiers.",
+    gain: "4-7h manual → ~40 min",
+    invoke: "/si-adoption-report",
+    url: "https://github.tools.sap/Cloud-ERP-SCM-Product-Success/Cloud_ERP_PS_LT_AI_Initiatives/blob/main/initiatives/20260521_si_adoption_report_use_case.md"
+  },
+  {
+    num: "06",
+    color: "#00315C",
+    tag: "Analytics",
+    tagColor: "#00315C",
+    title: "CACV% Quarterly Report",
+    author: "Mingkang Huang  |  I075278",
+    description: "Consolidates ONE360 + CRP HPI Waves → 18 slides with Loyal/Active/Needs Attention/At-Risk tiers.",
+    gain: "3-4h manual → 15-20 min",
+    invoke: "/cacv-quarterly-report",
+    url: "https://github.tools.sap/Cloud-ERP-SCM-Product-Success/Cloud_ERP_PS_LT_AI_Initiatives/blob/main/initiatives/20260521_cacv_quarterly_report_use_case.md"
+  },
+  {
+    num: "07",
+    color: "#6B2D8B",
+    tag: "Multi-System",
+    tagColor: "#6B2D8B",
+    title: "Multi-System Data Analysis",
+    author: "Marcus Behrens  |  D039026",
+    description: "Access Jira, Teams, Outlook, ServiceNow, Wiki, GitHub and CRP using natural language. No manual login to each system.",
+    gain: "5-10h/month per user",
+    invoke: "Natural language",
+    url: "https://github.tools.sap/Cloud-ERP-SCM-Product-Success/Cloud_ERP_PS_LT_AI_Initiatives/blob/main/initiatives/20260521_multi_system_data_analysis_use_case.md"
+  },
+  {
+    num: "08",
+    color: "#007A33",
+    tag: "Content",
+    tagColor: "#007A33",
+    title: "Summarize Customer Session",
+    author: "AI Initiatives Team",
+    description: "Meeting summary + transcript → SAP-branded Word document with executive summary, action items and next steps.",
+    gain: "45-60 min writing → 10 min review",
+    invoke: "/summarize-customer-session",
+    url: "https://github.tools.sap/Cloud-ERP-SCM-Product-Success/Cloud_ERP_PS_LT_AI_Initiatives/blob/main/initiatives/20260521_summarize_customer_session_use_case.md"
+  },
+  {
+    num: "09",
+    color: "#007A33",
+    tag: "Content",
+    tagColor: "#007A33",
+    title: "PPTX Blog Post Generation",
+    author: "AI Initiatives Team",
+    description: "Features deck (.pptx) → publishable blog post (.docx) with inline screenshots and functional paragraphs.",
+    gain: "2-4h writing → 10-15 min review",
+    invoke: "/pptx-blog",
+    url: "https://github.tools.sap/Cloud-ERP-SCM-Product-Success/Cloud_ERP_PS_LT_AI_Initiatives/blob/main/initiatives/20260521_pptx_blog_post_use_case.md"
+  },
+  {
+    num: "10",
+    color: "#CC0000",
+    tag: "Engagement",
+    tagColor: "#CC0000",
+    title: "Mural Design Thinking Boards",
+    author: "Marco Kroner  |  D056675",
+    description: "Creates complete Mural boards for SCI workshops via Mural MCP Server with automatic LUMA methods.",
+    gain: "2-4h per board → < 15 min",
+    invoke: "Natural language",
+    url: "https://github.tools.sap/Cloud-ERP-SCM-Product-Success/Cloud_ERP_PS_LT_AI_Initiatives/blob/main/initiatives/20260521_mural_design_thinking_use_case.md"
+  },
+  {
+    num: "11",
+    color: "#CC0000",
+    tag: "Engagement",
+    tagColor: "#CC0000",
+    title: "Customer Feedback in Jira",
+    author: "Marco Kroner  |  D056675",
+    description: "Extracts feedback from Mural boards → SharePoint (PM reviews) → creates Idea in Jira. Human-in-the-loop before Jira.",
+    gain: "Hours manual → minutes",
+    invoke: "Natural language",
+    url: "https://github.tools.sap/Cloud-ERP-SCM-Product-Success/Cloud_ERP_PS_LT_AI_Initiatives/blob/main/initiatives/20260521_customer_feedback_jira_use_case.md"
+  },
+  {
+    num: "12",
+    color: "#CC0000",
+    tag: "Engagement",
+    tagColor: "#CC0000",
+    title: "Workshop Participation Rate",
+    author: "Marco Kroner  |  D056675",
+    description: "Reads RSVPs from calendar, identifies non-respondents, creates personal reminder drafts + SPOC report. Nothing sent without review.",
+    gain: "45-90 min/workshop → 5-10 min review",
+    invoke: "/workshop-participation",
+    url: "https://github.tools.sap/Cloud-ERP-SCM-Product-Success/Cloud_ERP_PS_LT_AI_Initiatives/blob/main/initiatives/20260521_workshop_participation_use_case.md"
+  }
+];
+
+function generateCmd(skill) {
+  const safeName = skill.title.replace(/[^a-zA-Z0-9]/g, '_').toLowerCase();
+  const cmdContent = `@echo off
+chcp 65001 >nul
+
+:: Auto-unblock this file (remove Windows internet zone flag)
+powershell -NoProfile -ExecutionPolicy Bypass -Command "Unblock-File -Path '%~f0' -ErrorAction SilentlyContinue" >nul 2>&1
+
+echo.
+echo ================================================================
+echo  SAP AI Initiatives - Instalando: ${skill.num} - ${skill.title}
+echo  Autor: ${skill.author}
+echo ================================================================
+echo.
+
+where claude >nul 2>&1
+if %errorlevel% neq 0 (
+    echo [ERRO] Claude Code nao encontrado no PATH.
+    echo        Instale em: https://claude.ai/code
+    echo.
+    pause
+    exit /b 1
+)
+echo [OK] Claude Code encontrado.
+
+where python >nul 2>&1
+if %errorlevel% neq 0 (
+    echo [AVISO] Python nao encontrado. Algumas skills precisam dele.
+) else (
+    echo [OK] Python encontrado.
+    python -m pip install python-docx pytz --quiet 2>nul
+    echo [OK] Dependencias Python verificadas.
+)
+
+if not exist "%USERPROFILE%\\.claude\\skills" (
+    mkdir "%USERPROFILE%\\.claude\\skills"
+    echo [OK] Pasta ~/.claude/skills criada.
+)
+
+echo.
+echo Abrindo Claude Code para instalar a skill...
+echo (A janela fica aberta ate o Claude terminar)
+echo.
+
+claude -p "Install the skill from this SAP AI Initiatives GitHub URL: ${skill.url} -- Steps: 1) Access the URL using Playwright (authenticate on GitHub SAP if needed). 2) Read and understand the use case. 3) Create the skill file in %USERPROFILE%\\.claude\\skills\\ with a suitable name, YAML frontmatter (name and description) and complete execution instructions. 4) Confirm: skill name, file path, how to invoke it and what it produces."
+
+echo.
+echo ================================================================
+echo  Concluido! Verifique acima se o skill foi criado com sucesso.
+echo ================================================================
+echo.
+pause
+`;
+  return cmdContent;
+}
+
+function downloadCmd(skill) {
+  const cmdContent = generateCmd(skill);
+  const safeName = skill.title.replace(/[^a-zA-Z0-9]/g, '_').toLowerCase();
+  const cmdName = `instalar_skill_${skill.num}_${safeName}.cmd`;
+
+  const blob = new Blob([cmdContent], { type: 'application/octet-stream' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = cmdName;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+const grid = document.getElementById('skill-grid');
+
+skills.forEach(skill => {
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.innerHTML = `
+    <div class="card-header">
+      <div class="card-num" style="background:${skill.color}">${skill.num}</div>
+      <div>
+        <div class="card-title">${skill.title}</div>
+        <div class="card-meta">${skill.author}</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <p>${skill.description}</p>
+      <span class="tag" style="background:${skill.tagColor}20;color:${skill.tagColor}">${skill.tag}</span>
+      <span class="tag" style="background:#F0F0F0;color:#555">⚡ ${skill.gain}</span>
+      <span class="tag" style="background:#E8F4FB;color:#007DB8">→ ${skill.invoke}</span>
+    </div>
+    <div class="card-footer">
+      <button class="btn-install" onclick='downloadCmd(${JSON.stringify(skill)})'>
+        ⬇ Download Installer (.cmd)
+      </button>
+    </div>
+  `;
+  grid.appendChild(card);
+});
+</script>
+
+</body>
+</html>
