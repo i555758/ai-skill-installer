@@ -427,7 +427,8 @@ function generateCmd(skill) {
   L.push("echo (A janela fica aberta ate o Claude terminar)");
   L.push("echo.");
   L.push("");
-  L.push("claude --allowedTools \"Write,Read\" -p \"Read the local file %TMPFILE% (it already exists on disk - use the Read tool to open it). Then create a skill file in %USERPROFILE%\.claude\skills\ based on its content: add YAML frontmatter with name and description, followed by the full execution instructions. Do not access any URL or network resource. Confirm the skill name and file path when done.\"");
+  L.push("set SKILLSDIR=%USERPROFILE%\.claude\skills");
+  L.push("claude --allowedTools \"Write,Read\" -p \"Read the local file %TMPFILE% (it already exists on disk - use the Read tool to open it). Then create a skill file in the directory %SKILLSDIR% based on its content: add YAML frontmatter with name and description, followed by the full execution instructions. Do not access any URL or network resource. Confirm the skill name and file path when done.\"");
   L.push("");
   L.push("echo.");
   L.push("echo ================================================================");
