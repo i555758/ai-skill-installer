@@ -359,6 +359,7 @@ const skills = [
 
 function generateCmd(skill) {
   const safeName = skill.title.replace(/[^a-zA-Z0-9]/g, '_').toLowerCase();
+  const safeAuthor = skill.author.replace(/\|/g, '^|');
   const cmdContent = `@echo off
 chcp 65001 >nul
 
@@ -368,7 +369,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -Command "Unblock-File -Path '%~f0
 echo.
 echo ================================================================
 echo  SAP AI Initiatives - Instalando: ${skill.num} - ${skill.title}
-echo  Autor: ${skill.author.replace(/\|/g, '^|')}
+echo  Autor: ${safeAuthor}
 echo ================================================================
 echo.
 
