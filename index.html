@@ -368,7 +368,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -Command "Unblock-File -Path '%~f0
 echo.
 echo ================================================================
 echo  SAP AI Initiatives - Instalando: ${skill.num} - ${skill.title}
-echo  Autor: ${skill.author}
+echo  Autor: ${skill.author.replace(/\|/g, '^|')}
 echo ================================================================
 echo.
 
