@@ -373,73 +373,70 @@ const skills = [
 ];
 
 function generateCmd(skill) {
-  const safeName = skill.title.replace(/[^a-zA-Z0-9]/g, '_').toLowerCase();
-  const safeAuthor = skill.author.replace(/\|/g, '^|');
-  const b64content = skillContents[skill.num] || '';
-  const skillFileName = 'skill_' + skill.num + '_' + safeName + '.md';
+  var safeName = skill.title.replace(/[^a-zA-Z0-9]/g, "_").toLowerCase();
+  var safeAuthor = skill.author.replace(/\|/g, "^|");
+  var b64 = skillContents[skill.num] || "";
+  var fn = "skill_" + skill.num + "_" + safeName + ".md";
 
-  const lines = [
-    '@echo off',
-    'chcp 65001 >nul',
-    '',
-    'powershell -NoProfile -ExecutionPolicy Bypass -Command "Unblock-File -Path \'%~f0\' -ErrorAction SilentlyContinue" >nul 2>&1',
-    '',
-    'echo.',
-    'echo ================================================================',
-    'echo  SAP AI Initiatives - Instalando: ' + skill.num + ' - ' + skill.title,
-    'echo  Autor: ' + safeAuthor,
-    'echo ================================================================',
-    'echo.',
-    '',
-    'where claude >nul 2>&1',
-    'if %errorlevel% neq 0 (',
-    '    echo [ERRO] Claude Code nao encontrado no PATH.',
-    '    echo        Instale em: https://claude.ai/code',
-    '    echo.',
-    '    echo Pressione qualquer tecla para terminar...',
-    '    pause >nul',
-    '    exit /b 1',
-    ')',
-    'echo [OK] Claude Code encontrado.',
-    '',
-    'where python >nul 2>&1',
-    'if %errorlevel% neq 0 (',
-    '    echo [AVISO] Python nao encontrado. Algumas skills precisam dele.',
-    ') else (',
-    '    echo [OK] Python encontrado.',
-    '    python -m pip install python-docx pytz --quiet 2>nul',
-    '    echo [OK] Dependencias Python verificadas.',
-    ')',
-    '',
-    'if not exist "%USERPROFILE%\.claude\skills" (',
-    '    mkdir "%USERPROFILE%\.claude\skills"',
-    '    echo [OK] Pasta ~/.claude/skills criada.',
-    ')',
-    '',
-    'echo.',
-    'echo Salvando use case localmente...',
-    'set "TMPFILE=%TEMP%\' + skillFileName + '"',
-    'powershell -NoProfile -ExecutionPolicy Bypass -Command "[System.IO.File]::WriteAllText(\'%TMPFILE%\', [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String(\'' + b64content + '\')))"',
-    'echo [OK] Use case salvo em %TMPFILE%',
-    '',
-    'echo.',
-    'echo Abrindo Claude Code para instalar a skill...',
-    'echo (A janela fica aberta ate o Claude terminar)',
-    'echo.',
-    '',
-    'claude -p "Read the use case file at %TMPFILE% and install it as a Claude Code skill. Steps: 1) Read the file content. 2) Understand what the use case does: name, objective, inputs, outputs, how to invoke. 3) Create the skill file in %USERPROFILE%\.claude\skills\ with a suitable name, YAML frontmatter (name and description) and complete execution instructions. 4) Confirm: skill name, file path, how to invoke and what it produces."',
-    '',
-    'echo.',
-    'echo ================================================================',
-    'echo  Concluido! Verifique acima se o skill foi criado com sucesso.',
-    'echo ================================================================',
-    'echo.',
-    'echo Pressione qualquer tecla para terminar...',
-    'pause >nul',
-  ];
-  return lines.join('
-
-');
+  var L = [];
+  L.push("@echo off");
+  L.push("chcp 65001 >nul");
+  L.push("");
+  L.push("echo.");
+  L.push("echo ================================================================");
+  L.push("echo  SAP AI Initiatives - Instalando: " + skill.num + " - " + skill.title);
+  L.push("echo  Autor: " + safeAuthor);
+  L.push("echo ================================================================");
+  L.push("echo.");
+  L.push("");
+  L.push("where claude >nul 2>&1");
+  L.push("if %errorlevel% neq 0 (");
+  L.push("    echo [ERRO] Claude Code nao encontrado no PATH.");
+  L.push("    echo        Instale em: https://claude.ai/code");
+  L.push("    echo.");
+  L.push("    echo Pressione qualquer tecla para terminar...");
+  L.push("    pause >nul");
+  L.push("    exit /b 1");
+  L.push(")");
+  L.push("echo [OK] Claude Code encontrado.");
+  L.push("");
+  L.push("where python >nul 2>&1");
+  L.push("if %errorlevel% neq 0 (");
+  L.push("    echo [AVISO] Python nao encontrado. Algumas skills precisam dele.");
+  L.push(") else (");
+  L.push("    echo [OK] Python encontrado.");
+  L.push("    python -m pip install python-docx pytz --quiet 2>nul");
+  L.push("    echo [OK] Dependencias Python verificadas.");
+  L.push(")");
+  L.push("");
+  L.push("if not exist \"%USERPROFILE%\.claude\skills\" (");
+  L.push("    mkdir \"%USERPROFILE%\.claude\skills\"");
+  L.push("    echo [OK] Pasta ~/.claude/skills criada.");
+  L.push(")");
+  L.push("");
+  L.push("echo.");
+  L.push("echo Salvando use case localmente...");
+  var sep = String.fromCharCode(92);
+  var crlf = String.fromCharCode(13,10);
+  L.push("set TMPFILE=%TEMP%" + sep + fn);
+  L.push("powershell -NoProfile -ExecutionPolicy Bypass -Command \"$b='PLACEHOLDER';$p=$env:TMPFILE;[IO.File]::WriteAllText($p,[Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($b)))\"".replace("PLACEHOLDER", b64));
+  L.push("echo [OK] Use case salvo em %TMPFILE%");
+  L.push("");
+  L.push("echo.");
+  L.push("echo Abrindo Claude Code para instalar a skill...");
+  L.push("echo (A janela fica aberta ate o Claude terminar)");
+  L.push("echo.");
+  L.push("");
+  L.push("claude -p \"Read the use case file at %TMPFILE% and install it as a Claude Code skill. Steps: 1) Read the file content. 2) Understand what the use case does: name, objective, inputs, outputs, how to invoke. 3) Create the skill file in %USERPROFILE%\.claude\skills\ with a suitable name, YAML frontmatter (name and description) and complete execution instructions. 4) Confirm: skill name, file path, how to invoke and what it produces.\"");
+  L.push("");
+  L.push("echo.");
+  L.push("echo ================================================================");
+  L.push("echo  Concluido! Verifique acima se o skill foi criado com sucesso.");
+  L.push("echo ================================================================");
+  L.push("echo.");
+  L.push("echo Pressione qualquer tecla para terminar...");
+  L.push("pause >nul");
+  return L.join(crlf);
 }
 
 function downloadCmd(skill) {
