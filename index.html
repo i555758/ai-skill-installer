@@ -436,7 +436,7 @@ function generateCmd(skill) {
   L.push("echo Instalando skill " + skillName + "...");
   var q = String.fromCharCode(34);
   L.push("powershell -NoProfile -ExecutionPolicy Bypass -Command " + q +
-    "$d = $env:USERPROFILE + '\\' + '.claude' + '\\' + 'skills'; " +
+    "$d = $env:USERPROFILE + '\\' + '.claude' + '\\' + 'commands'; " +
     "if (-not (Test-Path $d)) { New-Item -ItemType Directory -Path $d | Out-Null }; " +
     "$f = $d + '\\' + '" + skillName + ".md'; " +
     "[IO.File]::WriteAllText($f, [Text.Encoding]::UTF8.GetString([Convert]::FromBase64String('" + skillB64 + "'))); " +
