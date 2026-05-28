@@ -85,7 +85,24 @@
     margin-bottom: 4px;
   }
 
-  .card-footer { padding: 12px 20px; border-top: 1px solid #F0F0F0; }
+  .card-footer { padding: 12px 20px; border-top: 1px solid #F0F0F0; display: flex; flex-direction: column; gap: 8px; }
+
+  .btn-docs {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    background: white;
+    color: #007DB8;
+    border: 1px solid #007DB8;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+  }
+  .btn-docs:hover { background: #007DB8; color: white; }
 
   .btn-install {
     display: block;
@@ -499,6 +516,7 @@ skills.forEach(skill => {
       <button class="btn-install" onclick='downloadCmd(${JSON.stringify(skill)})'>
         ⬇ Download Installer (.cmd)
       </button>
+      ${skill.url ? `<a class="btn-docs" href="${skill.url}" target="_blank">📄 View Documentation</a>` : ''}
     </div>
   `;
   grid.appendChild(card);
