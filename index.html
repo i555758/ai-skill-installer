@@ -1128,7 +1128,7 @@ skills.forEach(skill => {
 
       </button>
 
-      ${skill.num === "03" ? `<button class="btn-install" style="background:#107e3e;margin-top:4px" onclick='downloadCmdLatest(${JSON.stringify(skill)})'>⬇ Latest Version (.cmd)</button>` : ''}
+      ${skill.num === "03" ? `<a class="btn-install" style="background:#107e3e;margin-top:4px;display:inline-block;text-decoration:none;color:#fff;padding:6px 14px;border-radius:4px" href="https://github.com/i555758/ai-skill-installer/raw/main/instalar_csb_latest.ps1" download>⬇ Latest Version (.ps1)</a>` : ''}
 
       ${skill.url ? `<a class="btn-docs" href="${skill.url}" target="_blank">📄 View Documentation</a>` : ''}
 
